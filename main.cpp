@@ -19,26 +19,28 @@ int main(){
 
 
     Object* obj = new Sphere(
-        {-4,8,0}, // centroid
-        {1, 0 , 0}, //color
+        {-8,9,-2}, // centroid
+        {1, 1 , 0}, //color
         4, // radious
         0.9, // kd
-        0.1, // ks
-        8 // n
+        0.5, // ks
+        8,// n
+        0
     );
 
 
     Object* obj1 = new Sphere(
-        {3,8,0}, // centroid
-        {0, 1 , 1}, //color
+        {3,8,-6}, // centroid
+        {0, 0.5 , 1}, //color
         4, // radious
         0.9,
-        0.1,
-        32
+        10,
+        6,
+        4
     );
 
     Object* pPlane = new Plane(
-        {0,0,1}, // color
+        {1,0,1}, // color
         {0,1,0}, //N
         2, // d
         0.7,

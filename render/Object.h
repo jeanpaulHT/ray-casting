@@ -8,6 +8,12 @@
 
 using Point = glm::vec3;
 
+
+struct Ray{
+    Point o,d;
+};
+
+
 class Object{
 
     private:
@@ -15,12 +21,12 @@ class Object{
         glm::vec3 color;
 
     public:
-        float idr;
+        float idr = 0;
 
         Object(): color(255,0,0){
         } 
 
-        Object(glm::vec3 cl, float kd, float ks, float n): color(cl), kd(kd), ks(ks), n(n) {
+        Object(glm::vec3 cl, float kd, float ks, float n, float idr): color(cl), kd(kd), ks(ks), n(n), idr(idr) {
 
         }
 
@@ -52,7 +58,7 @@ class Sphere: public Object{
             r  = 2;
         }
 
-        Sphere(Point c, Point color, float r, float kd = 0.9, float ks = 0.5, float n  = 5.f): Object(color,kd,ks,n), cen(c), r(r){
+        Sphere(Point c, Point color, float r, float kd = 0.9, float ks = 0.5, float n  = 5.f, float idr = 0): Object(color,kd,ks,n, idr), cen(c), r(r){
         } 
 
         bool intersect(const Ray& ray, float& t, glm::vec3 &normal) override{
@@ -85,8 +91,8 @@ class Plane: public Object{
         float D_;
 
         
-        Plane(Point color, Point N, float d, float kd = 0.9, float ks = 0.5, float n  = 5.f): 
-            Object(color, kd, ks, n), N_(N), D_(d) {
+        Plane(Point color, Point N, float d, float kd = 0.9, float ks = 0.5, float n  = 5.f, float idr = 0): 
+            Object(color, kd, ks, n, idr), N_(N), D_(d) {
 
         }
 
