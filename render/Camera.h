@@ -73,7 +73,7 @@ class Camera{
 
         glm::vec3 calculateColor(const Ray &ray, std::vector<Object *> objects, std::vector<Light *> lights, glm::vec3 ambientLight, int prof){
             
-            glm::vec3 result(1.0F, 1.0F, 1.0F);
+            glm::vec3 result(173 / 255.0f,216/ 255.0f,230/ 255.0f);
             glm::vec3 normal;
             
             
@@ -103,6 +103,7 @@ class Camera{
                 glm::vec3  ambient = ambientLight * min_obj->getKd();
                 
                 glm::vec3  color_reflexivo(0,0,0);
+                glm::vec3  color_refractivo(0,0,0);
 
                 float kr = min_obj->getKs();
                 float kt = 0;
@@ -148,19 +149,24 @@ class Camera{
                     auto bias = 0.0001f * normal;
 
                     if(min_obj->getIdr() > 0){
-
                         fresnel(ray.d, normal, min_obj->idr, kr);
                         if(kr < 1){
                             kt = 1 - kr;
                             Ray refractive_ray;
                             refractive_ray.o = outside? pi - bias :pi + bias;
                             refractive_ray.d = glm::normalize( refract(ray.d, normal, min_obj->idr) );
-                            color_reflexivo = calculateColor(refractive_ray, objects, lights, ambientLight ,prof+1);
-                            
+                            color_refractivo = calculateColor(refractive_ray, objects, lights, ambientLight ,prof+1);
                         }
                     }
+                    if(kr > 0){
+                        Ray reflexive_ray;
+                        reflexive_ray.o  = outside? pi - bias : pi + bias;
+                        reflexive_ray.d = glm::normalize(2 * glm::dot(v, normal) * normal - v);
+                        color_reflexivo = calculateColor(reflexive_ray, objects, lights, ambientLight, prof + 1);
+                    }
+
                     result = min_obj->get_color() * (ambient +  especular + difusa);
-                    result = result + color_reflexivo * kr;
+                    result = result + color_reflexivo * kr + color_refractivo * kt;
                     result  = glm::clamp(result, 0.0f,1.0f);
                 }
             }

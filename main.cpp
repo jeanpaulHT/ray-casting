@@ -25,7 +25,7 @@ int main(){
         0.9, // kd
         0.5, // ks
         8,// n
-        0
+        23
     );
 
 
@@ -34,9 +34,9 @@ int main(){
         {0, 0.5 , 1}, //color
         4, // radious
         0.9,
-        10,
-        6,
-        4
+        2,
+        3,
+        0 // idr
     );
 
     Object* pPlane = new Plane(
@@ -45,7 +45,8 @@ int main(){
         2, // d
         0.7,
         0,
-        1
+        1,
+        0
     );
 
 
